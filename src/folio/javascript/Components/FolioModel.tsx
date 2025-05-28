@@ -14,6 +14,8 @@ export default function FolioModel({ path, floorShadowPath }: FolioModelProps) {
   const getMaterial = useGetMaterial();
 
   useEffect(() => {
+    if (!gltf || !gltf.scene || !floorShadowTexture) return;
+
     gltf.scene.traverse((child) => {
       if (!(child instanceof Mesh)) return;
 
@@ -23,7 +25,7 @@ export default function FolioModel({ path, floorShadowPath }: FolioModelProps) {
 
       child.material = getMaterial(child.name, floorShadowTexture);
     });
-  }, [getMaterial]);
+  }, [gltf, floorShadowTexture, getMaterial]);
 
   return <primitive object={gltf.scene} />;
 }
