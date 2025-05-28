@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aleksandra Opacic</title>
+    <meta
+      name="description"
+      content="Creative developer, living in London always looking to make Tech creative."
+    />
+    <style>
+      /* General Styles */
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Spotify Player Styles */
+      #spotifyPlayer {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 320px;
+        background-color: #181818;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+      }
+
+      #spotifyPlayer h2 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      #minimizeButton {
+        background-color: #1db954;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-left: 10px;
+      }
+
+      #minimizeButton:hover {
+        background-color: #1ed760;
+      }
+
+      #spotifyPlayerContainer {
+        position: relative;
+        width: 100%;
+        height: 352px;
+      }
+
+      #spotifyIframe {
+        border-radius: 12px;
+        border: none;
+      }
+
+      #spotifyPlayerMinimized {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #181818;
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        display: none;
+      }
+
+      #spotifyPlayerMinimized button {
+        background-color: #1db954;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #spotifyPlayerMinimized button:hover {
+        background-color: #1ed760;
+      }
+
+      /* Additional Canvas Styles */
+      .canvas {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Three.js Journey Content */
+      .threejs-journey {
+        position: relative;
+        z-index: 10;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index.788b55c9.js"></script>
+    <link rel="stylesheet" href="/assets/index.4b7596af.css">
+  </head>
+  <body>
+    <!-- Root Element for React/Vite -->
+    <div id="root"></div>
+
+    <!-- Background Canvas -->
+    <canvas class="canvas js-canvas"></canvas>
+
+    <!-- Three.js Journey Content -->
+    <div class="threejs-journey is-hover-none js-threejs-journey">
+      <!-- Three.js journey messages and interactions here -->
+    </div>
+
+    <!-- Spotify Player -->
+    <div id="spotifyPlayer">
+      <h2>Now Playing</h2>
+      <button id="minimizeButton">Minimize</button>
+      <div id="spotifyPlayerContainer">
+        <iframe
+          id="spotifyIframe"
+          src="https://open.spotify.com/embed/playlist/3Sg5A4Gmg8KfyXC504GU6y?utm_source=generator&theme=0"
+          width="100%"
+          height="352"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+
+    <!--Minimized Spotify Player -->
+    <div id="spotifyPlayerMinimized">
+      <button id="restoreButton">Show Playlist</button>
+    </div>
+
+    <!-- Main Script -->
+    
+
+    <script>
+      // Minimize and Restore Logic
+      const minimizeButton = document.getElementById("minimizeButton");
+      const restoreButton = document.getElementById("restoreButton");
+      const spotifyPlayer = document.getElementById("spotifyPlayer");
+      const spotifyPlayerMinimized = document.getElementById(
+        "spotifyPlayerMinimized"
+      );
+
+      minimizeButton.addEventListener("click", () => {
+        spotifyPlayer.style.display = "none"; // Hide the full player
+        spotifyPlayerMinimized.style.display = "block"; // Show the minimized player
+      });
+
+      restoreButton.addEventListener("click", () => {
+        spotifyPlayer.style.display = "block"; // Show the full player
+        spotifyPlayerMinimized.style.display = "none"; // Hide the minimized player
+      });
+    </script>
+  </body>
+</html>
