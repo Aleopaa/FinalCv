@@ -6,7 +6,7 @@ export default function IntroSectionComponent() {
   return (
     <FolioModel
       path={base + "models/intro/static/base.glb"}
-      floorShadowPath={base + "models/intro/static/floorshadow.png"}
+      floorShadowPath={base + "models/intro/static/floorShadow.png"}
     />
   );
 }
