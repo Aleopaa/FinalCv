@@ -1,10 +1,12 @@
 import FolioModel from "../../Components/FolioModel";
 
 export default function IntroSectionComponent() {
+  const base = import.meta.env.BASE_URL;
+
   return (
     <FolioModel
-      path="./models/intro/static/base.glb"
-      floorShadowPath="./models/intro/static/floorshadow.png"
+      path={base + "models/intro/static/base.glb"}
+      floorShadowPath={base + "models/intro/static/floorshadow.png"}
     />
   );
 }
