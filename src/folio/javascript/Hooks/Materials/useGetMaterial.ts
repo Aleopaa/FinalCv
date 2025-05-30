@@ -81,6 +81,10 @@ export function useGetMaterial() {
     const color = getMatcapColor(meshName);
     if (color) {
       const matcap = matcapTextures[color];
+      if (!matcap || !matcap.image) {
+        console.warn(`Matcap not loaded yet or missing for color: ${color}`);
+        return new MeshNormalMaterial(); // fallback
+      }
       return new FolioMatcapMaterial(matcap, matcapUniforms);
     }
 
