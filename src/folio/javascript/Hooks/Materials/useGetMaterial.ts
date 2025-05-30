@@ -81,10 +81,6 @@ export function useGetMaterial() {
     const color = getMatcapColor(meshName);
     if (color) {
       const matcap = matcapTextures[color];
-      if (!matcap || !matcap.image) {
-        console.warn(`Matcap not loaded yet or missing for color: ${color}`);
-        return new MeshNormalMaterial(); // fallback
-      }
       return new FolioMatcapMaterial(matcap, matcapUniforms);
     }
 
@@ -114,12 +110,17 @@ export function isFloor(meshName: string) {
 
 function getMatcapColor(meshName: string) {
   const match = meshName.match(/^shade([a-z]+)_?[0-9]{0,3}?/i);
-  return toCamelCase(match?.[1]);
+  if (!match || !match[1]) {
+    console.warn("Unmatched shade mesh name:", meshName);
+    return undefined;
+  }
+  return toCamelCase(match[1]);
 }
 
 function getBasicColor(meshName: string): BasicMaterialColor | undefined {
   const match = meshName.match(/^pure([a-z]+)_?[0-9]{0,3}?/i);
-  return toCamelCase(match?.[1]) as BasicMaterialColor;
+  if (!match || !match[1]) return undefined;
+  return toCamelCase(match[1]) as BasicMaterialColor;
 }
 
 function toCamelCase(value?: string) {
