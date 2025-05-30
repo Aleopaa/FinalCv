@@ -108,6 +108,13 @@ export default class Resources extends EventEmitter {
     load(_resources = []) {
         for (const _resource of _resources) {
             this.toLoad++
+
+            if (_resource.source.startsWith('data:')) {
+                console.warn(`⚠️ Skipping data URL resource: ${_resource.name}`);
+                this.fileLoadEnd(_resource, null)
+                continue
+            }
+
             const extensionMatch = _resource.source.match(/\.([a-z]+)$/)
 
             if (extensionMatch?.[1]) {
@@ -119,19 +126,20 @@ export default class Resources extends EventEmitter {
                 if (loader) {
                     loader.action(_resource)
                 } else {
-                    console.error(`❌ No loader found for: ${_resource.name} (extension .${extension})`);
+                    console.error(`❌ No loader found for: ${_resource.name} (extension .${extension})`)
                 }
             } else {
-                console.error(`❌ Could not extract file extension: ${_resource.name} (source: ${_resource.source})`);
+                console.error(`❌ Could not extract file extension: ${_resource.name} (source: ${_resource.source})`)
+                this.fileLoadEnd(_resource, null)
             }
         }
     }
 
     fileLoadEnd(_resource, _data) {
         if (_data === null) {
-            console.warn(`⚠️ Load failed for: ${_resource.name}`);
+            console.warn(`⚠️ Load failed for: ${_resource.name}`)
         } else {
-            console.log(`📦 Loaded: ${_resource.name}`);
+            console.log(`📦 Loaded: ${_resource.name}`)
         }
 
         this.loaded++
