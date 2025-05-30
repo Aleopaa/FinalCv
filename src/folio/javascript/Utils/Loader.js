@@ -106,35 +106,35 @@ export default class Resources extends EventEmitter {
     }
 
     load(_resources = []) {
-        for (const _resource of _resources) {
-            this.toLoad++
+    for (const _resource of _resources) {
+        this.toLoad++;
 
-            if (_resource.source.startsWith('data:')) {
-                console.warn(`⚠️ Skipping data URL resource: ${_resource.name}`);
-                this.fileLoadEnd(_resource, null)
-                continue
-            }
+        if (_resource.source.startsWith('data:')) {
+            console.warn(`⚠️ Base64 asset detected (bypassing loader): ${_resource.name}`);
+            this.fileLoadEnd(_resource, _resource.source);
+            continue;
+        }
 
-            const extensionMatch = _resource.source.match(/\.([a-z]+)$/)
+        const extensionMatch = _resource.source.match(/\.([a-z]+)$/)
 
-            if (extensionMatch?.[1]) {
-                const extension = extensionMatch[1]
-                const loader = this.loaders.find((_loader) =>
-                    _loader.extensions.includes(extension)
-                )
+        if (extensionMatch?.[1]) {
+            const extension = extensionMatch[1]
+            const loader = this.loaders.find((_loader) =>
+                _loader.extensions.includes(extension)
+            )
 
-                if (loader) {
-                    loader.action(_resource)
-                } else {
-                    console.error(`❌ No loader found for: ${_resource.name} (extension .${extension})`)
-                }
+            if (loader) {
+                loader.action(_resource)
             } else {
-                console.error(`❌ Could not extract file extension: ${_resource.name} (source: ${_resource.source})`)
+                console.error(`❌ No loader found for: ${_resource.name} (extension .${extension})`)
                 this.fileLoadEnd(_resource, null)
             }
+        } else {
+            console.error(`❌ Could not extract file extension: ${_resource.name} (source: ${_resource.source})`)
+            this.fileLoadEnd(_resource, null)
         }
     }
-
+}
     fileLoadEnd(_resource, _data) {
         if (_data === null) {
             console.warn(`⚠️ Load failed for: ${_resource.name}`)
